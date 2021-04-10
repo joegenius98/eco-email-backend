@@ -1,0 +1,30 @@
+{
+    "id": "000001",
+    "email": "first.last@example.com",
+    "first_name": "First",
+    "last_name": "Last",
+    "lang": "eng",
+    "country": "USA",
+    "datetime": "2021-04-10T00:00:00Z",
+    "email_data": {
+        "start_date": "2010-01-01T00:00:00Z",
+        "stop_date": "2020-01-01T00:00:00Z",
+        "total_parsed": "12345"
+    },
+    "env_impact": {
+        "carbon_ton": 4.7,
+        "plastic_ton": 14
+    },
+    "offset_price_USD": 12.5,
+    "links": [
+        {
+            "rel": "self",
+            "href": "eco-email-backend/output/000001_First_Last.json",
+            "type": "application/json"
+        }
+    ],
+    "tags": [
+        "if",
+        "needed"
+    ]
+}
