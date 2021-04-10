@@ -24,12 +24,36 @@ from google.oauth2.credentials import Credentials
 import email
 import base64
 import random
+import json
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 
-def get_message(service, user_id, msg_id):
+# def get_children(email_obj):
+#     return email_object.get_payload()
+
+
+# def allElementsAreTypeStr(a_list):
+#     return sum(type(ele) == str for ele in a_list) == len(a_list)
+
+
+# def convertToStrMsgs(emailObjList):
+#     toRet = emailObjList[:]
+
+#     currEmail = None
+
+#     while not allElementsAreTypeStr(toRet):
+#         currEmail = toRet[0]
+
+#         if type(currEmail) != str:
+#             toRet += get_children(toRet[0])
+#             del toRet[0]
+
+
+def get_multipart_messages(service, user_id, msg_id):
+
+    # toRet = []
     try:
         message = service.users().messages().get(
             userId=user_id, id=msg_id, format='raw').execute()  # "raw" means byte format-based, and we need to decode
@@ -45,20 +69,20 @@ def get_message(service, user_id, msg_id):
         content_type = msg_str.get_content_maintype()
 
         if content_type == "multipart":
-            main_msg = msg_str.get_payload()[0]
+            # main_msg = msg_str.get_payload()[0]
 
-            print("this is the main message object:")
-            print(main_msg)
+            # # print("this is the main message object:")
+            # # print(main_msg)
 
-            # part 1 is plain text, part 2 is html text
-            print("get payload of this main message")
-            print(main_msg.get_payload())
+            # # # part 1 is plain text, part 2 is html text
+            # # print("get payload of this main message")
+            # # print(main_msg.get_payload())
 
-            part1, part2 = main_msg.get_payload()
+            # part1, part2 = main_msg.get_payload()
 
-            print("This is the message body: ")
-            print(part1.get_payload())
-            return part1.get_payload()
+            # print("This is the message body: ")
+            # print(part1.get_payload())
+            return [part_msg.get_payload() for part_msg in msg_str.get_payload()]
 
         else:
             return msg_str.get_payload()
@@ -67,6 +91,7 @@ def get_message(service, user_id, msg_id):
         print(f"An error occurred: {vE}")
         print(
             "Safely ignore this error if you see 'too many values to unpack (expected 2)'")
+        return main_msg.get_payload()
 
 
 def search_messages(service, user_id, search_string):
@@ -88,7 +113,7 @@ def search_messages(service, user_id, search_string):
         if number_results > 0:
             message_id_list = search_ids['messages']
 
-            # message_ids has this format:
+            # search_ids has this format:
             '''
             {'messages': [{'id': ..., 'threadId': ...}, 
             ...,
@@ -147,8 +172,33 @@ if __name__ == '__main__':
         service=service, user_id='me', search_string=search_query)
 
     if message_ids:
-        print(get_message(service=service,
-              user_id='me', msg_id=random.choice(message_ids)))
+        # print(get_message(service=service,
+        #       user_id='me', msg_id=random.choice(message_ids)))
+
+        rand_msg_id = random.choice(message_ids)
+        print("Your message id is: " + rand_msg_id)
+
+        multipart_msgs = get_multipart_messages(service=service,
+                                                user_id='me', msg_id=rand_msg_id)
+
+        python_json = {"content": None}
+
+        python_json["content"] = {f"part_{i}": multipart_msgs[i]
+                                  for i in range(len(multipart_msgs))}
+
+        # json_formatted_str = json.dumps(python_json, indent=2)
+        # print(json_formatted_str)
+
+        with open("output/sample.json", "w") as outfile:
+            json.dump(python_json, outfile)
 
 
 # [END gmail_quickstart]
+
+
+'''
+Sources:
+1. https://youtu.be/vgk7Yio-GQw
+2. https://www.journaldev.com/33302/python-pretty-print-json
+3. https://www.w3schools.com/python/ref_random_choices.asp
+'''
