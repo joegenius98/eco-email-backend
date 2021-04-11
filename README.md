@@ -30,3 +30,4 @@ pip install -r requirements.txt
 ```shell
 python3 quickstart.py
 ```
+more information about this project: https://devpost.com/software/eco-email
