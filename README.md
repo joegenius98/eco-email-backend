@@ -15,7 +15,7 @@ git clone git@github.com:joegenius98/eco-email-backend.git
 ``` shell 
 cd eco-email-backend
 python -m venv .venv
-source .venv/bin/activate
+source .venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
