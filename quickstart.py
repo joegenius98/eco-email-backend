@@ -167,29 +167,45 @@ if __name__ == '__main__':
     service = get_service()
     # print(service)
 
-    search_query = input("Tell me something to search for: ")
-    message_ids = search_messages(
-        service=service, user_id='me', search_string=search_query)
+    # search_query = input("Tell me something to search for: ")
 
-    if message_ids:
+    amazon_search_query = "Amazon.com"
+    flight_search_query = "Your trip confirmation"
+
+    amazon_msg_ids = search_messages(
+        service=service, user_id='me', search_string=amazon_search_query)
+
+    flight_msg_ids = search_messages(
+        service=service, user_id='me', search_string=flight_search_query)
+
+    if amazon_msg_ids and flight_msg_ids:
         # print(get_message(service=service,
         #       user_id='me', msg_id=random.choice(message_ids)))
 
-        rand_msg_id = random.choice(message_ids)
-        print("Your message id is: " + rand_msg_id)
+        # rand_msg_id = random.choice(message_ids)
+        # print("Your message id is: " + rand_msg_id)
 
-        multipart_msgs = get_multipart_messages(service=service,
-                                                user_id='me', msg_id=rand_msg_id)
+        # multipart_msgs = get_multipart_messages(service=service,
+        #                                         user_id='me', msg_id=rand_msg_id)
 
-        python_json = {"content": None}
+        # python_json = {"content": None}
 
-        python_json["content"] = {f"part_{i}": multipart_msgs[i]
-                                  for i in range(len(multipart_msgs))}
+        # python_json["content"] = {f"part_{i}": multipart_msgs[i]
+        #                           for i in range(len(multipart_msgs))}
+
+        python_json = {"First Name": "",
+                       "Last Name": "", "email": "", "env_impact": {}}
+
+        python_json["First Name"] = "Sam"
+        python_json["Last Name"] = "Pies"
+        python_json["email"] = "sampieslovestheearth@gmail.com"
+        python_json["env_impact"]["carbon_ton"] = len(flight_msg_ids)
+        python_json["env_impact"]["plastic_ton"] = len(amazon_msg_ids)
 
         # json_formatted_str = json.dumps(python_json, indent=2)
         # print(json_formatted_str)
 
-        with open("output/sample.json", "w") as outfile:
+        with open("output/impact.json", "w") as outfile:
             json.dump(python_json, outfile)
 
 

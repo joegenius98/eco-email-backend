@@ -53,9 +53,26 @@ def JSONParse(fN):
     keyring.set_password('yagmail', sender_email, password)
     filename = "test.jpg"
 
-    text = f"""Your carbon footprint is {totFP} tons of carbon.
-    Your carbon footprint due to transportation and plastic consumption is {co2TN} and {plastTN} respectively.
-    {advice}"""
+    first_name = data["First Name"]
+    last_name = data["Last Name"]
+
+    text = f"""
+    Hello, {first_name} {last_name}!
+
+    I hope this email brings you well. We wanted to bring some awareness to your environmentally unsustainable activity. 
+
+    Your carbon footprint is {totFP} tons of carbon.
+    Your plastic consumption is {plastTN} tons.
+
+    Do you want the turtles to die at YOUR hands?
+    Do you want the sea to wipe out civilization Because of YOU?
+
+    Do you want your city to become an uninhabitable wasteland because of YOU?
+    Do you want the sea to wipe out civilization at YOUR hands?
+
+    I hope the answer to all of these questions is a strong no. So, please use more eco-friendly options, such as reusable water bottles. Flights are tricky, but we remain hopeful that 
+    there will be more practical and environmentally sustainable transporation options in the future.
+    """
 
     yag = yagmail.SMTP("eco.email.automated@gmail.com")
     yag.send(
@@ -67,4 +84,4 @@ def JSONParse(fN):
 
 
 if __name__ == "__main__":
-    JSONParse("output\json_format.json")
+    JSONParse("output/impact.json")
