@@ -1,4 +1,5 @@
 # eco-email-backend
+
 Cypher VI Hackathon submission
 
 ## Overview
@@ -6,20 +7,26 @@ Cypher VI Hackathon submission
 This a python script that...
 
 ## Local Installation
-* Clone this repo:
-``` shell
+
+- Clone this repo:
+
+```shell
 git clone git@github.com:joegenius98/eco-email-backend.git
 ```
 
-### Pip / Virtual Environment Setup
-``` shell 
+## Pip / Virtual Environment Setup
+
+### Windows
+
+```shell
 cd eco-email-backend
 python -m venv .venv
-source .venv/Scripts/activate
+.venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
-### Quickstart 
-``` shell
+### Quickstart
+
+```shell
 python3 quickstart.py
 ```
